@@ -49,25 +49,25 @@ const Team = mongoose.model('Team', teamSchema);
 
 // Test if the Schema works by adding a new User to DB
 
-const TestTeam = new Team({
-    badgeUrl: "badge.url",
-    name: "Manchester United",
-    nickname: "The Red Devils",
-    founded: 1878,
-    groundName: "Old Trafford",
-    groundCapacity:  74310,
-    country: "England",
-    league: "Premier League",
-    coach: "Erik Ten Hag"
-})
+// const TestTeam = new Team({
+//     badgeUrl: "badge.url",
+//     name: "Manchester United",
+//     nickname: "The Red Devils",
+//     founded: 1878,
+//     groundName: "Old Trafford",
+//     groundCapacity:  74310,
+//     country: "England",
+//     league: "Premier League",
+//     coach: "Erik Ten Hag"
+// })
 
-TestTeam.save()
-    .then(TestTeam => {
-        console.log(`Added team: ${TestTeam.name}`)
-    })
-    .catch(e => {
-        console.log(e)
-    })
+// TestTeam.save()
+//     .then(TestTeam => {
+//         console.log(`Added team: ${TestTeam.name}`)
+//     })
+//     .catch(e => {
+//         console.log(e)
+//     })
 
 
 // Add new user
