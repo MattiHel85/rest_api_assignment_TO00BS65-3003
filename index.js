@@ -4,6 +4,7 @@ const app = express();
 const PORT = process.env.PORT ||3000
 const mongoPass = process.env.PASSWORD || "_72vLRW_fv9n!ty" // MongoDB password imported from .env file
 const mongoose = require('mongoose')
+const routes = require('./routes.json')
 
 // DB Connection address
 const uri = `mongodb+srv://mattisimpson:${mongoPass}@to00bs65-3003.gj3nvll.mongodb.net/?retryWrites=true&w=majority`;
@@ -39,6 +40,9 @@ const teamSchema = new mongoose.Schema({
 // Create Team variable for reuse
 const Team = mongoose.model('Team', teamSchema);
 
+app.get('/api', (req, res) => {
+    res.status(200).json(routes);
+})
 
 // Add new user
 app.post('/api/add', async (req, res) => {

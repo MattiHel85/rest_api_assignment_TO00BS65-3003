@@ -1,0 +1,22 @@
+[
+    {
+    "route":"https://football-teams-rest-api-assignment.onrender.com/api/add",
+    "requestType":"POST"
+    },    
+    {
+    "route":"https://football-teams-rest-api-assignment.onrender.com/api/getall",
+    "requestType":"GET"
+    },
+    {
+    "route":"https://football-teams-rest-api-assignment.onrender.com/api/:id",
+    "requestType":"GET"
+    },
+    {
+    "route":"https://football-teams-rest-api-assignment.onrender.com/api/update/:id",
+    "requestType":"PUT"
+    },
+    {
+    "route":"https://football-teams-rest-api-assignment.onrender.com/api/delete/:id",
+    "requestType":"DELETE"
+    }
+]
