@@ -28,13 +28,14 @@ const teamSchema = new mongoose.Schema({
 
 Here are the 5 routes currently included in the API
 
-### Add team
+### Add Team
 
 By sending a POST request to the following url with the correcting parameters, you can add your favourite football team to the database.
 
 ``` bash
 https://football-teams-rest-api-assignment.onrender.com/api/add
 ```
+### Get All Teams
 
 By sending a GET request to the following url you can access all teams currently in the database. The response is sent as a JSON response to the browser.
 
@@ -42,11 +43,15 @@ By sending a GET request to the following url you can access all teams currently
 https://football-teams-rest-api-assignment.onrender.com/api/getall
 ```
 
+### Get Team By Id
+
 By sending a GET request to the following url you can view the information of a particular team. Replace ':id' with the ID of the team.
 
 ``` bash
 https://football-teams-rest-api-assignment.onrender.com/api/:id
 ```
+### Update Team By Id
+
 By sending a PUT request to the following url you can update the information of a particular team.
 Replace ':id' with the ID of the team.
 
@@ -56,6 +61,8 @@ NOTE - All parameters must be sent again in order for this to work. I will add a
 ``` bash
 https://football-teams-rest-api-assignment.onrender.com/api/update/:id
 ```
+
+### Delete Team By Id
 By sending a DELETE request to the following url you can delete the information of a particular team.
 Replace ':id' with the ID of the team you wish to delete.
 
