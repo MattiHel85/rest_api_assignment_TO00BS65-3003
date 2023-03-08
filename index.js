@@ -22,13 +22,6 @@ db.once("open", () => console.log("Connected to DB!"));
 // Don't delete this again. You nee
 app.use(express.json());
 
-// Create userSchema
-// const userSchema = new mongoose.Schema({
-//     firstName: String,
-//     lastName: String,
-//     age: Number,
-//     nationality: String
-// })
 
 // Come up with a new schema for a better project
 const teamSchema = new mongoose.Schema({
@@ -43,31 +36,8 @@ const teamSchema = new mongoose.Schema({
     coach: String
 })
 
-// Create User variable for reuse
-// const User = mongoose.model('User', userSchema);
+// Create Team variable for reuse
 const Team = mongoose.model('Team', teamSchema);
-
-// Test if the Schema works by adding a new User to DB
-
-// const TestTeam = new Team({
-//     badgeUrl: "badge.url",
-//     name: "Manchester United",
-//     nickname: "The Red Devils",
-//     founded: 1878,
-//     groundName: "Old Trafford",
-//     groundCapacity:  74310,
-//     country: "England",
-//     league: "Premier League",
-//     coach: "Erik Ten Hag"
-// })
-
-// TestTeam.save()
-//     .then(TestTeam => {
-//         console.log(`Added team: ${TestTeam.name}`)
-//     })
-//     .catch(e => {
-//         console.log(e)
-//     })
 
 
 // Add new user
