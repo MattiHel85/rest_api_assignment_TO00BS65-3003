@@ -1,6 +1,7 @@
 require('dotenv').config() // Require this to hide MongoDB password
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const PORT = process.env.PORT ||3000
 const mongoPass = process.env.PASSWORD || "_72vLRW_fv9n!ty" // MongoDB password imported from .env file
 const mongoose = require('mongoose')
@@ -22,6 +23,7 @@ db.once("open", () => console.log("Connected to DB!"));
 
 // Don't delete this again. You nee
 app.use(express.json());
+app.use(cors());
 
 
 // Come up with a new schema for a better project
