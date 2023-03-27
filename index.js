@@ -2,7 +2,7 @@ require('dotenv').config() // Require this to hide MongoDB password
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const PORT = process.env.PORT ||3000
+const PORT = process.env.PORT
 const mongoPass = process.env.PASSWORD // MongoDB password imported from .env file
 const mongoose = require('mongoose')
 const routes = require('./routes.json')
