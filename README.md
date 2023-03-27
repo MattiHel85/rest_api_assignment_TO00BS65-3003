@@ -12,15 +12,42 @@ Below is the schema containing all data types the user must send to the backend.
 ``` javascript
 
 const teamSchema = new mongoose.Schema({
-    badgeUrl: String,
-    name: String,
-    nickname: String,
-    founded: Number,
-    groundName: String,
-    groundCapacity: Number,
-    country: String,
-    league: String,
-    coach: String
+    badgeUrl: {
+        type: String,
+        required: true
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    nickname: {
+        type: String,
+        required: true
+    },
+    founded: {
+        type: Number,
+        required: true
+    },
+    groundName: {
+        type: String,
+        required: true
+    },
+    groundCapacity: {
+        type: Number,
+        required: true
+    },
+    country: {
+        type: String,
+        required: true
+    },
+    league: {
+        type: String,
+        required: true
+    },
+    coach: {
+        type: String,
+        required: true
+    }
 })
 
 ```
