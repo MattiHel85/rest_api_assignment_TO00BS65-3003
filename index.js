@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 const PORT = process.env.PORT ||3000
-const mongoPass = process.env.PASSWORD || "_72vLRW_fv9n!ty" // MongoDB password imported from .env file
+const mongoPass = process.env.PASSWORD // MongoDB password imported from .env file
 const mongoose = require('mongoose')
 const routes = require('./routes.json')
 
