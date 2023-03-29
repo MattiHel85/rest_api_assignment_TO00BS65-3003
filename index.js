@@ -66,14 +66,41 @@ const teamSchema = new mongoose.Schema({
     }
 })
 
+// User Schema for future use 
+// const userSchema = new mongoose.Schema({
+//     firstName: {
+//         type: String,
+//         required: true
+//     },
+//     lastName: {
+//         type: String,
+//         required: true
+//     },
+//     emailAddress: {
+//         type: String,
+//         required: true
+//     },
+//     password: {
+//         type: String,
+//         required: true
+//     },
+//     profilePicUrl: {
+//         type: String,
+//         required: false
+//     }
+// })
+
 // Create Team variable for reuse
 const Team = mongoose.model('Team', teamSchema);
+
+// Create Team variable for reuse
+// const User = mongoose.model('User', userSchema);
 
 app.get('/api', (req, res) => {
     res.status(200).json(routes);
 })
 
-// Add new user
+// Add new team
 app.post('/api/add', async (req, res) => {
     const newTeam = new Team({
         badgeUrl: req.body.badgeUrl,
@@ -95,32 +122,34 @@ app.post('/api/add', async (req, res) => {
         })
 })  
 
-// Get all users
+// Get all teams
 app.get('/api/getall', async (req, res) => {
     const allTeams = await Team.find({});
     res.status(200).json(allTeams);
 })
 
-// Find user by ID
+// Find team by ID
 app.get('/api/:id', async (req, res) => {
     const { id } = req.params;
     const team = await Team.findById(id);
     res.status(200).json(team);
 })
 
-// Update user by ID
+// Update team by ID
 app.put('/api/update/:id', async (req, res) => {    
     const { id } = req.params;
     const team = await Team.findByIdAndUpdate(id, req.body, { runValidators: true, new: true})
     console.log(`Data updated for: ${team.name}`);
 })
 
-// Delete user by ID
+// Delete team by ID
 app.delete('/api/delete/:id', async (req, res) => {    
     const { id } = req.params;
     const team = await Team.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
     console.log(`Deleted user: ${team.name}`);
 })
+
+// User routes
 
 // listening to port
 app.listen(PORT, () => {
