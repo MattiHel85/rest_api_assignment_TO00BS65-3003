@@ -2,9 +2,15 @@ require('dotenv').config() // Require this to hide MongoDB password
 const AWS = require('aws-sdk');
 const secretsManager = new AWS.SecretsManager();
 
-const secretName = 'mongo-password';
-const secret = await secretsManager.getSecretValue({ SecretId: secretName}).promise();
-const mySecret = JSON.parse(secret.SecretString);
+const getSecret = async () => {
+    const secretName = 'mongo-password';
+    const secret = await secretsManager.getSecretValue({ SecretId: secretName}).promise();
+    const mySecret = JSON.parse(secret.SecretString);
+    console.log(mySecret)
+};
+
+getSecret();
+
 
 const express = require('express');
 const app = express();
@@ -27,8 +33,6 @@ const db = mongoose.connection;
 db.on("error", (err) => console.log(`Connection ${err}`));
 
 db.once("open", () => console.log("Connected to DB!"));
-
-console.log(mySecret);
 
 // Don't delete this again. You nee
 app.use(express.json());
