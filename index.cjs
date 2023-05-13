@@ -3,7 +3,7 @@ const AWS = require('aws-sdk');
 const secretsManager = new AWS.SecretsManager();
 
 const secretName = 'mongo-password';
-const secret = await secretsManager.getSecretValue({ SecretId: secretName});
+const secret = await secretsManager.getSecretValue({ SecretId: secretName}).promise();
 const mySecret = JSON.parse(secret.SecretString);
 
 const express = require('express');
