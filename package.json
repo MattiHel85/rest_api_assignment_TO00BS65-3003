@@ -10,7 +10,6 @@
   "engines": {
     "node": "19.5.0"
   },
-  "type": "module",
   "author": "Matt Simpson",
   "license": "ISC",
   "dependencies": {
