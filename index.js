@@ -1,20 +1,4 @@
 require('dotenv').config() // Require this to hide MongoDB password
-
-// Comment out AWS secret code
-
-// const AWS = require('aws-sdk');
-// const secretsManager = new AWS.SecretsManager();
-
-// const getSecret = async () => {
-//     const secretName = 'mongo-password';
-//     const secret = await secretsManager.getSecretValue({ SecretId: secretName}).promise();
-//     const mySecret = JSON.parse(secret.SecretString);
-//     console.log(mySecret)
-// };
-
-// getSecret();
-
-
 const express = require('express');
 const app = express();
 const cors = require('cors');
