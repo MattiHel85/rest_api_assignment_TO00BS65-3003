@@ -166,6 +166,32 @@ app.post('/api/users/add', async (req, res) => {
             console.log(e)
         })
 })  
+// Get all users
+app.get('/api/users', async (req, res) => {
+    const allUsers = await User.find({});
+    res.status(200).json(allUsers);
+})
+
+// Find user by ID
+app.get('/api/user/:id', async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.status(200).json(user);
+})
+
+// Update user by ID
+app.put('/api/user/update/:id', async (req, res) => {    
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(id, req.body, { runValidators: true, new: true})
+    console.log(`Data updated for: ${user.firstName} ${user.lastName}`);
+})
+
+// Delete user by ID
+app.delete('/api/user/delete/:id', async (req, res) => {    
+    const { id } = req.params;
+    const user = await User.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
+    console.log(`Deleted user: ${user.firstName} ${user.lastName}`);
+})
 
 // listening to port
 app.listen(PORT, () => {
