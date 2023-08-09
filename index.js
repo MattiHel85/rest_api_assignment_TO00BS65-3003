@@ -67,34 +67,34 @@ const teamSchema = new mongoose.Schema({
 })
 
 // User Schema for future use 
-// const userSchema = new mongoose.Schema({
-//     firstName: {
-//         type: String,
-//         required: true
-//     },
-//     lastName: {
-//         type: String,
-//         required: true
-//     },
-//     emailAddress: {
-//         type: String,
-//         required: true
-//     },
-//     password: {
-//         type: String,
-//         required: true
-//     },
-//     profilePicUrl: {
-//         type: String,
-//         required: false
-//     }
-// })
+const userSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    emailAddress: {
+        type: String,
+        required: true
+    },
+    password: {
+        type: String,
+        required: true
+    },
+    profilePicUrl: {
+        type: String,
+        required: false
+    }
+})
 
 // Create Team variable for reuse
 const Team = mongoose.model('Team', teamSchema);
 
 // Create Team variable for reuse
-// const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema);
 
 app.get('/api', (req, res) => {
     res.status(200).json(routes);
@@ -150,6 +150,22 @@ app.delete('/api/delete/:id', async (req, res) => {
 })
 
 // User routes
+app.post('/api/users/add', async (req, res) => {
+    const newUser = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        emailAddress: req.body.emailAddress,
+        password: req.body.password,
+        profilePicUrl: req.body.profilePicUrl
+    })
+    await newUser.save()
+        .then(newUser => {
+            console.log(`Added team: ${newUser.firstName} ${newUser.lastName}`)
+        })
+        .catch(e => {
+            console.log(e)
+        })
+})  
 
 // listening to port
 app.listen(PORT, () => {
