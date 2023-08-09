@@ -8,7 +8,7 @@
     "start": "node index.js"
   },
   "engines": {
-    "node": "19.5.0"
+    "node": "20.2.0"
   },
   "author": "Matt Simpson",
   "license": "ISC",
