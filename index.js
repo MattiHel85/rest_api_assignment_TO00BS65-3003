@@ -2,8 +2,8 @@ require('dotenv').config() // Require this to hide MongoDB password
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const PORT = process.env.PORT;
-const mongoPass = process.env.PASSWORD; // MongoDB password imported from .env file
+const PORT = 3000 || process.env.PORT;
+const mongoPass = '_72vLRW_fv9n!ty' || process.env.PASSWORD; // MongoDB password imported from .env file
 const mongoose = require('mongoose')
 const routes = require('./routes.json')
 
@@ -151,47 +151,84 @@ app.delete('/api/delete/:id', async (req, res) => {
 
 // User routes
 app.post('/api/users/add', async (req, res) => {
-    const newUser = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        emailAddress: req.body.emailAddress,
-        password: req.body.password,
-        profilePicUrl: req.body.profilePicUrl
-    })
-    await newUser.save()
-        .then(newUser => {
-            console.log(`Added team: ${newUser.firstName} ${newUser.lastName}`)
-        })
-        .catch(e => {
-            console.log(e)
-        })
-})  
+    try {
+        const newUser = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            emailAddress: req.body.emailAddress,
+            password: req.body.password,
+            profilePicUrl: req.body.profilePicUrl
+        });
+        await newUser.save();
+        console.log(`Added user: ${newUser.firstName} ${newUser.lastName} id: ${newUser._id}`);
+        res.status(201).json({ message: 'User added successfully' });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ error: 'An error occurred while adding the user' });
+    }
+});
+
+
 // Get all users
-app.get('/api/users', async (req, res) => {
+app.get('/users', async (req, res) => {
     const allUsers = await User.find({});
     res.status(200).json(allUsers);
+    // console.log('all users')
 })
 
-// Find user by ID
-app.get('/api/user/:id', async (req, res) => {
-    const { id } = req.params;
-    const user = await User.findById(id);
-    res.status(200).json(user);
-})
+// Get user by ID
+app.get('/users/user/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const user = await User.findById(id);
+        if (!user) {
+            res.status(404).json({ error: "User not found" });
+        } else {
+            res.status(200).json(user);
+        }
+    } catch (error) {
+        console.error("Error fetching user by ID:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 // Update user by ID
-app.put('/api/user/update/:id', async (req, res) => {    
-    const { id } = req.params;
-    const user = await User.findByIdAndUpdate(id, req.body, { runValidators: true, new: true})
-    console.log(`Data updated for: ${user.firstName} ${user.lastName}`);
-})
+app.put('/users/user/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+            runValidators: true,
+            new: true
+        });
+        if (!updatedUser) {
+            res.status(404).json({ error: "User not found" });
+        } else {
+            console.log(`Updated user: ${updatedUser.firstName} ${updatedUser.lastName}`);
+            res.status(200).json(updatedUser);
+        }
+    } catch (error) {
+        console.error("Error updating user by ID:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 // Delete user by ID
-app.delete('/api/user/delete/:id', async (req, res) => {    
-    const { id } = req.params;
-    const user = await User.findByIdAndDelete(id, req.body, { runValidators: true, new: true})
-    console.log(`Deleted user: ${user.firstName} ${user.lastName}`);
-})
+app.delete('/users/user/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedUser = await User.findByIdAndDelete(id);
+        if (!deletedUser) {
+            res.status(404).json({ error: "User not found" });
+        } else {
+            console.log(`Deleted user: ${deletedUser.firstName} ${deletedUser.lastName}`);
+            res.status(200).json({ message: "User deleted successfully" });
+        }
+    } catch (error) {
+        console.error("Error deleting user by ID:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
+
 
 // listening to port
 app.listen(PORT, () => {
