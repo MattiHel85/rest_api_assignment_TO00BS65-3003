@@ -11,6 +11,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
 const Team = require('./models/team')
+const jwt = require('jsonwebtoken')
 
 // DB Connection address
 const uri = `mongodb+srv://mattisimpson:${mongoPass}@to00bs65-3003.gj3nvll.mongodb.net/?retryWrites=true&w=majority`;
@@ -31,7 +32,7 @@ db.once("open", () => console.log("Connected to DB!"));
 // Express-session middleware
 app.use(
     session({
-      secret: 'your-secret-key',
+      secret: 'askOchEmbla',
       resave: false,
       saveUninitialized: true,
       // You can add more configuration options here as needed
@@ -130,19 +131,7 @@ app.post('/api/users/add', async (req, res) => {
 app.get('/users', async (req, res) => {
     const allUsers = await User.find({});
     res.status(200).json(allUsers);
-    // console.log('all users')
 })
-
-//Test passport
-// app.get('/fakeuser', async (req, res) => {
-//     const user = new User({
-//         firstName: "Masa",
-//         lastName: "Simppanen",
-//         emailAddress: "masa.simp@panen.fi"
-//     })
-//     const newUser = await User.register(user, 'chicken')
-//     res.send(newUser)
-// })
 
 // Get user by ID
 app.get('/users/user/:id', async (req, res) => {
@@ -196,6 +185,23 @@ app.delete('/users/user/:id', async (req, res) => {
         res.status(500).json({ error: "Internal server error" });
     }
 });
+
+// User login
+app.post('/signin',(req, res, next) => {
+    passport.authenticate('local', {failureFlash: true, failureRedirect: '/signin'}, (err, user, info) => {
+        if(err) {
+            return next(err)
+        }
+        if (!user) {
+            return res.status(401).json({message: 'Authentication failed'})
+        }
+
+        const token = jwt.sign({userId: user._id}, 'askOchEmbla', { expiresIn: '1h'})
+
+        // send token to front end
+        res.status.json({ token })
+    })(req, res, next)
+})
 
 
 // listening to port
