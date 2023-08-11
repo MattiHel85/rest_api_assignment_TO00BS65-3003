@@ -6,12 +6,19 @@ const PORT = 3000 || process.env.PORT;
 const mongoPass = '_72vLRW_fv9n!ty' || process.env.PASSWORD; // MongoDB password imported from .env file
 const mongoose = require('mongoose')
 const routes = require('./routes.json')
+const session = require('express-session');
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user')
+const Team = require('./models/team')
 
 // DB Connection address
 const uri = `mongodb+srv://mattisimpson:${mongoPass}@to00bs65-3003.gj3nvll.mongodb.net/?retryWrites=true&w=majority`;
 
 // Make DB connection
-mongoose.connect(uri);
+mongoose.connect(uri, {
+    useNewUrlParser: true
+});
 
 const db = mongoose.connection;
 
@@ -21,80 +28,30 @@ db.on("error", (err) => console.log(`Connection ${err}`));
 
 db.once("open", () => console.log("Connected to DB!"));
 
-// Don't delete this again. You nee
+// Express-session middleware
+app.use(
+    session({
+      secret: 'your-secret-key',
+      resave: false,
+      saveUninitialized: true,
+      // You can add more configuration options here as needed
+    })
+  );
+  
+
+// Don't delete this again. You need them!
 app.use(express.json());
 app.use(cors());
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
-// Come up with a new schema for a better project
-const teamSchema = new mongoose.Schema({
-    badgeUrl: {
-        type: String,
-        required: true
-    },
-    name: {
-        type: String,
-        required: true
-    },
-    nickname: {
-        type: String,
-        required: true
-    },
-    founded: {
-        type: Number,
-        required: true
-    },
-    groundName: {
-        type: String,
-        required: true
-    },
-    groundCapacity: {
-        type: Number,
-        required: true
-    },
-    country: {
-        type: String,
-        required: true
-    },
-    league: {
-        type: String,
-        required: true
-    },
-    coach: {
-        type: String,
-        required: true
-    }
-})
-
-// User Schema for future use 
-const userSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    emailAddress: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    profilePicUrl: {
-        type: String,
-        required: false
-    }
-})
-
-// Create Team variable for reuse
-const Team = mongoose.model('Team', teamSchema);
-
-// Create Team variable for reuse
-const User = mongoose.model('User', userSchema);
+// Create User variable for reuse
+// const User = mongoose.model('User', userSchema);
 
 app.get('/api', (req, res) => {
     res.status(200).json(routes);
@@ -175,6 +132,17 @@ app.get('/users', async (req, res) => {
     res.status(200).json(allUsers);
     // console.log('all users')
 })
+
+//Test passport
+// app.get('/fakeuser', async (req, res) => {
+//     const user = new User({
+//         firstName: "Masa",
+//         lastName: "Simppanen",
+//         emailAddress: "masa.simp@panen.fi"
+//     })
+//     const newUser = await User.register(user, 'chicken')
+//     res.send(newUser)
+// })
 
 // Get user by ID
 app.get('/users/user/:id', async (req, res) => {
