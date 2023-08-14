@@ -2,13 +2,13 @@ require('dotenv').config() // Require this to hide MongoDB password
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const PORT = 3000 || process.env.PORT;
-const mongoPass = '_72vLRW_fv9n!ty' || process.env.PASSWORD; // MongoDB password imported from .env file
+const PORT = process.env.PORT || 3000;
+const mongoPass = process.env.PASSWORD || '_72vLRW_fv9n!ty'; // MongoDB password imported from .env file
 const mongoose = require('mongoose')
 const routes = require('./routes.json')
 const session = require('express-session');
 const passport = require('passport')
-const LocalStrategy = require('passport-local')
+const LocalStrategy = require('passport-local').Strategy
 const User = require('./models/user')
 const Team = require('./models/team')
 const jwt = require('jsonwebtoken')
@@ -45,10 +45,15 @@ app.use(express.json());
 app.use(cors());
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
+
+passport.use(new LocalStrategy({
+    usernameField: 'emailAddress',
+    passwordField: 'password'
+}, User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 
 
 // Create User variable for reuse
@@ -110,14 +115,16 @@ app.delete('/api/delete/:id', async (req, res) => {
 // User routes
 app.post('/api/users/add', async (req, res) => {
     try {
+        const { firstName, lastName, emailAddress, password, profilePicUrl } = req.body;
+
         const newUser = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            emailAddress: req.body.emailAddress,
-            password: req.body.password,
-            profilePicUrl: req.body.profilePicUrl
+            emailAddress: emailAddress, // Use emailAddress as the username
+            firstName: firstName,
+            lastName: lastName,
+            profilePicUrl: profilePicUrl
         });
-        await newUser.save();
+        await User.register(newUser, password);
+
         console.log(`Added user: ${newUser.firstName} ${newUser.lastName} id: ${newUser._id}`);
         res.status(201).json({ message: 'User added successfully' });
     } catch (e) {
@@ -190,16 +197,19 @@ app.delete('/users/user/:id', async (req, res) => {
 app.post('/signin',(req, res, next) => {
     passport.authenticate('local', {failureFlash: true, failureRedirect: '/signin'}, (err, user, info) => {
         if(err) {
+            console.log(err)
             return next(err)
         }
         if (!user) {
+            console.log(info)
             return res.status(401).json({message: 'Authentication failed'})
         }
 
         const token = jwt.sign({userId: user._id}, 'askOchEmbla', { expiresIn: '1h'})
 
         // send token to front end
-        res.status.json({ token })
+        res.status(200).json({ token })
+        // res.status(200).json({message: "welcome!"})
     })(req, res, next)
 })
 
