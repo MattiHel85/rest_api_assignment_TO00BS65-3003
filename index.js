@@ -115,13 +115,14 @@ app.delete('/api/delete/:id', async (req, res) => {
 // User routes
 app.post('/api/users/add', async (req, res) => {
     try {
-        const { firstName, lastName, emailAddress, password, profilePicUrl } = req.body;
+        const { firstName, lastName, emailAddress, password, profilePicUrl, isAdmin } = req.body;
 
         const newUser = new User({
             emailAddress: emailAddress, // Use emailAddress as the username
             firstName: firstName,
             lastName: lastName,
-            profilePicUrl: profilePicUrl
+            profilePicUrl: profilePicUrl,
+            isAdmin: isAdmin
         });
         await User.register(newUser, password);
 
@@ -212,6 +213,11 @@ app.post('/signin',(req, res, next) => {
     })(req, res, next)
 })
 
+// User logout 
+app.get('/signout', (req, res) => {
+    req.logout();
+    res.status(200).json({message: 'Logout successful'})
+})
 
 // listening to port
 app.listen(PORT, () => {
