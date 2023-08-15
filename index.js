@@ -206,10 +206,9 @@ app.post('/signin',(req, res, next) => {
         }
 
         const token = jwt.sign({userId: user._id}, 'askOchEmbla', { expiresIn: '1h'})
-
+        
         // send token to front end
-        res.status(200).json({ token })
-        // res.status(200).json({message: "welcome!"})
+        res.status(200).json({ token, userId: user._id })
     })(req, res, next)
 })
 
