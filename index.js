@@ -35,7 +35,6 @@ app.use(
       secret: 'askOchEmbla',
       resave: false,
       saveUninitialized: true,
-      // You can add more configuration options here as needed
     })
   );
   
@@ -53,11 +52,6 @@ passport.use(new LocalStrategy({
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-
-
-// Create User variable for reuse
-// const User = mongoose.model('User', userSchema);
 
 app.get('/api', (req, res) => {
     res.status(200).json(routes);
