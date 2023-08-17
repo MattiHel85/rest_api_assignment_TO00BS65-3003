@@ -30,8 +30,7 @@
                     "routeName":"User sign in",
                     "route":"https://football-teams-rest-api-assignment.onrender.com/signin",
                     "requestType":"POST"
-                },
-                ,
+                },                ,
                 {
                     "routeName":"User sign out",
                     "route":"https://football-teams-rest-api-assignment.onrender.com/signout",
