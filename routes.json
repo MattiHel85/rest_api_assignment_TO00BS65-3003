@@ -1,22 +1,69 @@
 [
     {
-    "route":"https://football-teams-rest-api-assignment.onrender.com/api/add",
-    "requestType":"POST"
-    },    
-    {
-    "route":"https://football-teams-rest-api-assignment.onrender.com/api/getall",
-    "requestType":"GET"
-    },
-    {
-    "route":"https://football-teams-rest-api-assignment.onrender.com/api/:id",
-    "requestType":"GET"
-    },
-    {
-    "route":"https://football-teams-rest-api-assignment.onrender.com/api/update/:id",
-    "requestType":"PUT"
-    },
-    {
-    "route":"https://football-teams-rest-api-assignment.onrender.com/api/delete/:id",
-    "requestType":"DELETE"
+        "userRoutes": [
+                {
+                    "routeName":"Add user",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/api/users/add",
+                    "requestType":"POST"
+                },
+                {
+                    "routeName":"Get all users",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/users",
+                    "requestType":"GET"
+                },
+                {
+                    "routeName":"Get user by ID",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/users/user/:id",
+                    "requestType":"GET"
+                },
+                {
+                    "routeName":"Update user by ID",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/users/user/:id",
+                    "requestType":"PUT"
+                },
+                {
+                    "routeName":"Delete user by ID",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/users/user/:id",
+                    "requestType":"DELETE"
+                },
+                {
+                    "routeName":"User sign in",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/signin",
+                    "requestType":"POST"
+                },
+                ,
+                {
+                    "routeName":"User sign out",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/signout",
+                    "requestType":"GET"
+                }
+        ],
+        "teamRoutes": [
+                {
+                    "routeName":"Add team",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/api/add",
+                    "requestType":"POST"
+                },    
+                {
+                    "routeName":"Get all teams",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/api/getall",
+                    "requestType":"GET"
+                },
+                {
+                    "routeName":"Get team by ID",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/api/:id",
+                    "requestType":"GET"
+                },
+                {
+                    "routeName":"Update team by ID",
+                   "route":"https://football-teams-rest-api-assignment.onrender.com/api/update/:id",
+                    "requestType":"PUT"
+                },
+                {
+                    "routeName":"Delete team by ID",
+                    "route":"https://football-teams-rest-api-assignment.onrender.com/api/delete/:id",
+                    "requestType":"DELETE"
+                }
+        ]
     }
 ]
